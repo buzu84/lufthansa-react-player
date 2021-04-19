@@ -5,6 +5,8 @@ import { PlaylistDetails } from '../components/PlaylistDetails'
 import { PlaylistEditForm } from '../components/PlaylistEditForm'
 import { PlaylistList } from '../components/PlaylistList'
 
+
+
 interface Props { }
 
 const data: Playlist[] = [
@@ -40,6 +42,7 @@ export const PlaylistsView = (props: Props) => {
     }, [selectedId, playlists])
 
     /* TODO:
+    zad 15.04.21
         - Show "Please select playlist when nothing selected"
         - Remove playlists when X clicked
         - Create new playlist

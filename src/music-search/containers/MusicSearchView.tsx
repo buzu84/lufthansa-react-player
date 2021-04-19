@@ -1,8 +1,12 @@
-import React from 'react'
+import React, { useState } from 'react'
 import { Album, AlbumView } from '../../model/Search'
 import { AlbumGrid } from '../components/AlbumGrid'
 import { SearchForm } from '../components/SearchForm'
 import { useSearchAlbums } from '../../core/hooks/useSearchAlbums'
+import { useSearchArtists } from '../../core/hooks/useSearchArtists'
+import { SearchArtists } from '../components/SearchArtists'
+import { ArtistGrid } from '../components/ArtistGrid'
+
 
 interface Props { }
 
@@ -30,6 +34,7 @@ const albumsMock: AlbumView[] = [
 */
 
 export const MusicSearchView = (props: Props) => {
+    const [mode, setMode] = useState<'artists' | 'playlists' | 'albums'>('albums')
     // const { searchAlbums, isLoading, message, results } = useSearchAlbums('http://localhost:3000/data/albums.json')
     const {
         searchAlbums,
@@ -38,21 +43,48 @@ export const MusicSearchView = (props: Props) => {
         results
     } = useSearchAlbums('https://api.spotify.com/v1/search')
 
+    const {
+        searchArtists,
+        isArtistsLoading,
+        messageArtists,
+        artistsResults
+    } = useSearchArtists('https://api.spotify.com/v1/search')
+
+    const setSearchArtists = () => {
+        setMode('artists')
+    }
+    const setSearchAlbums = () => {
+        setMode('albums')
+    }
+
     return (
-        <div>
-            <div className="row">
-                <div className="col">
-                    <SearchForm onSearch={searchAlbums} />
+        
+        <nav>
+            <div className="nav nav-tabs">
+                <div className={mode === 'albums' ? "nav-item active" : "nav-item"} onClick={setSearchAlbums}>
+                    Search albums
+                    
                 </div>
             </div>
+            <div className={mode === 'artists' ? "nav-item active" : "nav-item"} onClick={setSearchArtists}>
+                Search artists
+            </div>
+            <div>{mode === 'albums' && <SearchForm onSearch={searchAlbums} />}</div>
+            <div>{mode === 'artists' && <SearchArtists onSearch={searchArtists} />}</div>
             <div className="row">
                 <div className="col">
                     {isLoading && <p className="alert alert-info">Loading</p>}
                     {message && <p className="alert alert-danger">{message}</p>}
-
                     <AlbumGrid albums={results} />
                 </div>
+                <div className="col">
+                    {isArtistsLoading && <p className="alert alert-info">Loading</p>}
+                    {messageArtists && <p className="alert alert-danger">{messageArtists}</p>}
+                    <ArtistGrid artists={artistsResults} />
+                </div>
             </div>
-        </div>
+        </nav>
+        
+        
     )
 }
