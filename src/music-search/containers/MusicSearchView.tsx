@@ -36,9 +36,8 @@ const albumsMock: AlbumView[] = [
 
 export const MusicSearchView = (props: Props) => {
     const [mode, setMode] = useState<'artists' | 'playlists' | 'albums'>('albums')
-    const [forceRender, setForceRender] = useState< true | false>(false)
     // const { searchAlbums, isLoading, message, results } = useSearchAlbums('http://localhost:3000/data/albums.json')
-
+    const [albumQuery, setAlbumQuery] = useState<string>('')
     
 
     const {
@@ -57,21 +56,13 @@ export const MusicSearchView = (props: Props) => {
 
     const setSearchArtists = () => {
         setMode('artists')
-        setForceRender(!forceRender)
-        
     }
     const setSearchAlbums = () => {
         setMode('albums')
-        setForceRender(!forceRender)
     }
     const setSearchPlaylists = () => {
         setMode('playlists')
     }
-
-    useEffect(() => {
-        console.log('przeladowanie na zmiane mode - click!');
-        console.log(results)
-    }, [mode])
 
     return (
         <>
@@ -97,9 +88,11 @@ export const MusicSearchView = (props: Props) => {
             </nav>
 
             <section>
-                <div>{mode === 'albums' && <SearchForm onSearch={searchAlbums} />}
+                <div className={mode === 'albums' ? "col" : "d-lg-none"}>
+                    <SearchForm onSearch={searchAlbums} />
                 </div>
-                <div>{mode === 'artists' && <SearchArtists onSearch={searchArtists} />}
+                <div className={mode === 'artists' ? "col" : "d-lg-none"}>
+                    <SearchArtists onSearch={searchArtists} />
                 </div>
                 <div className="row">
                     <div className={mode !== 'albums' ? "d-lg-none" : "col"}>

@@ -34,7 +34,7 @@ const data: Playlist[] = [
 export const PlaylistsView = (props: Props) => {
     const [selectedId, setSelectedId] = useState<string | undefined>()
     const [selectedPlaylist, setSelectedPlaylist] = useState<Playlist | undefined>()
-    const [mode, setMode] = useState<'details' | 'form' | 'create'>('details')
+    const [mode, setMode] = useState<'details' | 'form' | 'create' | 'search'>('details')
     const [playlists, setPlaylists] = useState<Playlist[]>(data)
 
     useEffect(() => {
@@ -107,6 +107,8 @@ export const PlaylistsView = (props: Props) => {
                         selectedId={selectedId} />
 
                     <button className="btn btn-info btn-block mt-4" onClick={() => setMode('create')}>Create New Playlist</button>
+
+                    <button className="btn btn-info btn-block mt-4" onClick={() => setMode('search')}>Search Playlist</button>
                 </div>
                 <div className="col">
                     {selectedPlaylist && mode === 'details' && <PlaylistDetails
@@ -124,6 +126,11 @@ export const PlaylistsView = (props: Props) => {
                         cancel={cancel} />}
 
                     {!selectedPlaylist && mode !== 'create' && <div className="alert alert-info">Please select playlist</div>}
+
+                    {/* {mode === 'search' && <PlaylistEditForm
+                        save={saveNewPlaylist}
+                        playlist={emptyPlaylist}
+                        cancel={cancel} />} */}
                 </div>
             </div>
         </div>
