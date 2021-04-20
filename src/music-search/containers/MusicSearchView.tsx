@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useState, useEffect } from 'react'
 import { Album, AlbumView } from '../../model/Search'
 import { AlbumGrid } from '../components/AlbumGrid'
 import { SearchForm } from '../components/SearchForm'
@@ -6,6 +6,7 @@ import { useSearchAlbums } from '../../core/hooks/useSearchAlbums'
 import { useSearchArtists } from '../../core/hooks/useSearchArtists'
 import { SearchArtists } from '../components/SearchArtists'
 import { ArtistGrid } from '../components/ArtistGrid'
+import { PlaylistsView } from '../../playlists/containers/PlaylistsView';
 
 
 interface Props { }
@@ -35,7 +36,11 @@ const albumsMock: AlbumView[] = [
 
 export const MusicSearchView = (props: Props) => {
     const [mode, setMode] = useState<'artists' | 'playlists' | 'albums'>('albums')
+    const [forceRender, setForceRender] = useState< true | false>(false)
     // const { searchAlbums, isLoading, message, results } = useSearchAlbums('http://localhost:3000/data/albums.json')
+
+    
+
     const {
         searchAlbums,
         isLoading,
@@ -52,39 +57,73 @@ export const MusicSearchView = (props: Props) => {
 
     const setSearchArtists = () => {
         setMode('artists')
+        setForceRender(!forceRender)
+        
     }
     const setSearchAlbums = () => {
         setMode('albums')
+        setForceRender(!forceRender)
+    }
+    const setSearchPlaylists = () => {
+        setMode('playlists')
     }
 
+    useEffect(() => {
+        console.log('przeladowanie na zmiane mode - click!');
+        console.log(results)
+    }, [mode])
+
     return (
-        
-        <nav>
-            <div className="nav nav-tabs">
-                <div className={mode === 'albums' ? "nav-item active" : "nav-item"} onClick={setSearchAlbums}>
-                    Search albums
-                    
+        <>
+
+            <nav className="nav justify-content-center">
+                <ul className="nav-item">
+                    <li className={mode === 'albums' ? "active nav-link" : "nav-link"} onClick={setSearchAlbums}>
+                        Search albums
+                    </li>
+                </ul>
+
+                <ul className="nav-item">
+                    <li className={mode === 'artists' ? "active nav-link" : "nav-link"} onClick={setSearchArtists}>
+                        Search artists
+                    </li>
+                </ul>
+
+                <ul className="nav-item">
+                    <li className={mode === 'playlists' ? "active nav-link" : "nav-link"} onClick={setSearchPlaylists}>
+                        Search playlists
+                    </li>
+                </ul>
+            </nav>
+
+            <section>
+                <div>{mode === 'albums' && <SearchForm onSearch={searchAlbums} />}
                 </div>
-            </div>
-            <div className={mode === 'artists' ? "nav-item active" : "nav-item"} onClick={setSearchArtists}>
-                Search artists
-            </div>
-            <div>{mode === 'albums' && <SearchForm onSearch={searchAlbums} />}</div>
-            <div>{mode === 'artists' && <SearchArtists onSearch={searchArtists} />}</div>
-            <div className="row">
-                <div className="col">
-                    {isLoading && <p className="alert alert-info">Loading</p>}
-                    {message && <p className="alert alert-danger">{message}</p>}
-                    <AlbumGrid albums={results} />
+                <div>{mode === 'artists' && <SearchArtists onSearch={searchArtists} />}
                 </div>
-                <div className="col">
-                    {isArtistsLoading && <p className="alert alert-info">Loading</p>}
-                    {messageArtists && <p className="alert alert-danger">{messageArtists}</p>}
-                    <ArtistGrid artists={artistsResults} />
+                <div className="row">
+                    <div className={mode !== 'albums' ? "d-lg-none" : "col"}>
+                        {isLoading && <p className="alert alert-info">Loading</p>}
+                        {message && <p className="alert alert-danger">{message}</p>}
+                        {mode === 'albums' && <AlbumGrid albums={results} />}
+                    </div>
+
+                    <div className={mode !== 'artists' ? "d-lg-none" : "col"}>
+                        {isArtistsLoading && <p className="alert alert-info">Loading</p>}
+                        {messageArtists && <p className="alert alert-danger">{messageArtists}</p>}
+                        {mode === 'artists' && <ArtistGrid artists={artistsResults} />}
+                    </div>
+
+                    <div className={mode !== 'playlists' ? "d-lg-none" : "col"}>
+                        
+                        {mode === 'playlists' && <PlaylistsView />}
+                    </div>
                 </div>
-            </div>
-        </nav>
-        
-        
+            </section>
+        </>
+
+
+
+
     )
 }
