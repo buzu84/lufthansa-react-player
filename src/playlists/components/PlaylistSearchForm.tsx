@@ -1,16 +1,18 @@
-import React, { useState } from 'react'
+import React, { ChangeEvent, useEffect, useState } from 'react'
+import { Playlist } from '../../model/SearchPlaylists'
 
 interface Props {
-    onSearch(query: string): void
+  onSearch(query: string): void
 }
 
-export const SearchForm = ({ onSearch }: Props) => {
+
+export const PlaylistSearchForm = ({ onSearch }: Props) => {
     const [query, setQuery] = useState('')
 
     return (
         <div>
             <div className="input-group mb-3">
-                <input type="text" className="form-control" placeholder="Search albums"
+                <input type="text" className="form-control" placeholder="Search"
                     onChange={e => setQuery(e.target.value)}
                     onKeyUp={e => e.code === 'Enter' && onSearch(query)}
                     value={query}

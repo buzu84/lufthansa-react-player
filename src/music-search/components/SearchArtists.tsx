@@ -10,7 +10,7 @@ export const SearchArtists = ({ onSearch }: Props) => {
     return (
         <div>
             <div className="input-group mb-3">
-                <input type="text" className="form-control" placeholder="search artists"
+                <input type="text" className="form-control" placeholder="Search artists"
                     onChange={e => setQuery(e.target.value)}
                     onKeyUp={e => e.code === 'Enter' && onSearch(query)}
                 />

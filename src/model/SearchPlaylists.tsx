@@ -1,18 +1,26 @@
-export interface Pokedex {
-  playlists: Playlists;
-}
-
-export interface Playlists {
+export interface PagingObject<T> {
   href:     string;
-  items:    Item[];
+  items:    T[];
   limit:    number;
-  next:     string;
+  next:     null;
   offset:   number;
   previous: null;
   total:    number;
 }
 
-export interface Item {
+export interface PlaylistsSearchResponse {
+  playlists: PagingObject<Playlist>;
+}
+
+// export interface PlaylistView {
+//   id:                     string;
+//   images:                 Image[];
+//   name:                   string;
+//   type:                   ItemType;
+// }
+
+
+export interface Playlist {
   collaborative: boolean;
   description:   string;
   external_urls: ExternalUrls;
@@ -22,7 +30,7 @@ export interface Item {
   name:          string;
   owner:         Owner;
   primary_color: null;
-  public:        null;
+  public:        undefined;
   snapshot_id:   string;
   tracks:        Tracks;
   type:          ItemType;

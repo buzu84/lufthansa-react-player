@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useState, useEffect } from 'react'
 import { Playlist } from '../../model/Playlist'
 
 interface Props {
@@ -11,6 +11,10 @@ interface Props {
 export const PlaylistList = ({
     playlists, selectedId, onSelected, onRemove
 }: Props) => {
+
+    useEffect(() => {
+        console.log('playlist hook')
+    }, [playlists])
 
     return (
         <div>

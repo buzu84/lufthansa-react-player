@@ -6,7 +6,9 @@ import { useSearchAlbums } from '../../core/hooks/useSearchAlbums'
 import { useSearchArtists } from '../../core/hooks/useSearchArtists'
 import { SearchArtists } from '../components/SearchArtists'
 import { ArtistGrid } from '../components/ArtistGrid'
-import { PlaylistsView } from '../../playlists/containers/PlaylistsView';
+import { PlaylistsView } from '../../playlists/containers/PlaylistsView'
+import { useSearchPlaylists } from '../../core/hooks/useSearchPlaylists'
+
 
 
 interface Props { }
@@ -54,6 +56,13 @@ export const MusicSearchView = (props: Props) => {
         artistsResults
     } = useSearchArtists('https://api.spotify.com/v1/search')
 
+    const {
+        searchPlaylists,
+        isPlaylistsLoading,
+        messagePlaylists,
+        playlistsResults
+    } = useSearchPlaylists('https://api.spotify.com/v1/search')
+
     const setSearchArtists = () => {
         setMode('artists')
     }
@@ -66,7 +75,6 @@ export const MusicSearchView = (props: Props) => {
 
     return (
         <>
-
             <nav className="nav justify-content-center">
                 <ul className="nav-item">
                     <li className={mode === 'albums' ? "active nav-link" : "nav-link"} onClick={setSearchAlbums}>
@@ -109,14 +117,10 @@ export const MusicSearchView = (props: Props) => {
 
                     <div className={mode !== 'playlists' ? "d-lg-none" : "col"}>
                         
-                        {mode === 'playlists' && <PlaylistsView />}
+                        <PlaylistsView onSearch={searchPlaylists} playlistsResults={playlistsResults}/>
                     </div>
                 </div>
             </section>
         </>
-
-
-
-
     )
 }

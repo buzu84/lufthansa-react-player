@@ -19,15 +19,6 @@ export interface ArtistView {
   type:                   Type;
 }
 
-// export interface Artist {
-//   href:     string;
-//   items:    Item[];
-//   limit:    number;
-//   next:     string;
-//   offset:   number;
-//   previous: null;
-//   total:    number;
-// }
 
 export interface Artist {
   external_urls: ExternalUrls;

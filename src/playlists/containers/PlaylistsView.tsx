@@ -4,10 +4,12 @@ import { Playlist } from '../../model/Playlist'
 import { PlaylistDetails } from '../components/PlaylistDetails'
 import { PlaylistEditForm } from '../components/PlaylistEditForm'
 import { PlaylistList } from '../components/PlaylistList'
+import { PlaylistSearchForm } from '../components/PlaylistSearchForm'
 
-
-
-interface Props { }
+interface Props { 
+    onSearch: (query: string) => void
+    playlistsResults: Playlist[]
+}
 
 const data: Playlist[] = [
     {
@@ -28,18 +30,19 @@ const data: Playlist[] = [
         public: true,
         description: 'albo wszystko polubię co mi tam 😅💖'
     },
-
 ]
 
-export const PlaylistsView = (props: Props) => {
+export const PlaylistsView = ({ onSearch, playlistsResults }: Props) => {
     const [selectedId, setSelectedId] = useState<string | undefined>()
     const [selectedPlaylist, setSelectedPlaylist] = useState<Playlist | undefined>()
     const [mode, setMode] = useState<'details' | 'form' | 'create' | 'search'>('details')
-    const [playlists, setPlaylists] = useState<Playlist[]>(data)
+    const [playlists, setPlaylists] = useState<Playlist[]>(playlistsResults)
 
     useEffect(() => {
         setSelectedPlaylist(playlists.find(p => p.id == selectedId))
-    }, [selectedId, playlists])
+        console.log('jestem w plView:  ', playlists.length)
+    
+    }, [selectedId, playlists, playlistsResults])
 
     /* TODO:
     zad 15.04.21
@@ -127,10 +130,7 @@ export const PlaylistsView = (props: Props) => {
 
                     {!selectedPlaylist && mode !== 'create' && <div className="alert alert-info">Please select playlist</div>}
 
-                    {/* {mode === 'search' && <PlaylistEditForm
-                        save={saveNewPlaylist}
-                        playlist={emptyPlaylist}
-                        cancel={cancel} />} */}
+                    {mode === 'search' && <PlaylistSearchForm onSearch={onSearch}/>}
                 </div>
             </div>
         </div>
