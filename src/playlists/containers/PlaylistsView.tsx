@@ -4,8 +4,12 @@ import { Playlist } from '../../model/Playlist'
 import { PlaylistDetails } from '../components/PlaylistDetails'
 import { PlaylistEditForm } from '../components/PlaylistEditForm'
 import { PlaylistList } from '../components/PlaylistList'
+import { PlaylistSearchForm } from '../components/PlaylistSearchForm'
 
-interface Props { }
+interface Props { 
+    onSearch: (query: string) => void
+    playlistsResults: Playlist[]
+}
 
 const data: Playlist[] = [
     {
@@ -26,20 +30,24 @@ const data: Playlist[] = [
         public: true,
         description: 'albo wszystko polubię co mi tam 😅💖'
     },
-
 ]
 
-export const PlaylistsView = (props: Props) => {
+export const PlaylistsView = ({ onSearch, playlistsResults }: Props) => {
     const [selectedId, setSelectedId] = useState<string | undefined>()
     const [selectedPlaylist, setSelectedPlaylist] = useState<Playlist | undefined>()
-    const [mode, setMode] = useState<'details' | 'form' | 'create'>('details')
-    const [playlists, setPlaylists] = useState<Playlist[]>(data)
+    const [mode, setMode] = useState<'details' | 'form' | 'create' | 'search'>('details')
+    const [playlists, setPlaylists] = useState<Playlist[]>(playlistsResults)
 
     useEffect(() => {
         setSelectedPlaylist(playlists.find(p => p.id == selectedId))
-    }, [selectedId, playlists])
+        console.log('jestem w plView z props:  ', playlistsResults.length)
+        setPlaylists(playlistsResults) // prawdopodobna przyczyna - propsy 
+        console.log('jestem w plView:  ', playlists.length)
+    
+    }, [playlistsResults, selectedId])
 
     /* TODO:
+    zad 15.04.21
         - Show "Please select playlist when nothing selected"
         - Remove playlists when X clicked
         - Create new playlist
@@ -81,6 +89,7 @@ export const PlaylistsView = (props: Props) => {
     }
 
     const changeSelectedPlaylist = (id: Playlist['id']): void => {
+        setMode('details')
         setSelectedId(selectedId => selectedId === id ? undefined : id)
     }
 
@@ -104,6 +113,8 @@ export const PlaylistsView = (props: Props) => {
                         selectedId={selectedId} />
 
                     <button className="btn btn-info btn-block mt-4" onClick={() => setMode('create')}>Create New Playlist</button>
+
+                    <button className="btn btn-info btn-block mt-4" onClick={() => setMode('search')}>Search Playlist</button>
                 </div>
                 <div className="col">
                     {selectedPlaylist && mode === 'details' && <PlaylistDetails
@@ -121,6 +132,8 @@ export const PlaylistsView = (props: Props) => {
                         cancel={cancel} />}
 
                     {!selectedPlaylist && mode !== 'create' && <div className="alert alert-info">Please select playlist</div>}
+
+                    {mode === 'search' && <PlaylistSearchForm onSearch={onSearch}/>}
                 </div>
             </div>
         </div>

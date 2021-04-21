@@ -45,7 +45,7 @@ export const PlaylistEditForm = ({ playlist, cancel, save }: Props) => {
             }
         }
     }, [playlist, acceptNew, playlistId])
-
+    // {isPublic === true} zawsze zwraca boolean
     return (
         <div>
             <h3>PlaylistEditForm</h3>
@@ -64,7 +64,7 @@ export const PlaylistEditForm = ({ playlist, cancel, save }: Props) => {
             </div>
 
             <div className="form-check">
-                <label><input type="checkbox" className="form-check-input" checked={isPublic}
+                <label><input type="checkbox" className="form-check-input" checked={isPublic === true}
                     onChange={event => setIsPublic(event.target.checked)} /> Public </label>
             </div>
 
