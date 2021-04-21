@@ -12,14 +12,6 @@ export interface PlaylistsSearchResponse {
   playlists: PagingObject<Playlist>;
 }
 
-// export interface PlaylistView {
-//   id:                     string;
-//   images:                 Image[];
-//   name:                   string;
-//   type:                   ItemType;
-// }
-
-
 export interface Playlist {
   collaborative: boolean;
   description:   string;
@@ -30,7 +22,7 @@ export interface Playlist {
   name:          string;
   owner:         Owner;
   primary_color: null;
-  public:        undefined;
+  public:        null;
   snapshot_id:   string;
   tracks:        Tracks;
   type:          ItemType;

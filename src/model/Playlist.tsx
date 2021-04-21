@@ -1,6 +1,6 @@
 export interface Playlist {
     id: string;
     name: string;
-    public: boolean | undefined;
+    public: boolean | null;
     description: string;
 }

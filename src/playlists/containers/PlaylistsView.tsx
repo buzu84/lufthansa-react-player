@@ -40,9 +40,11 @@ export const PlaylistsView = ({ onSearch, playlistsResults }: Props) => {
 
     useEffect(() => {
         setSelectedPlaylist(playlists.find(p => p.id == selectedId))
+        console.log('jestem w plView z props:  ', playlistsResults.length)
+        setPlaylists(playlistsResults) // prawdopodobna przyczyna - propsy 
         console.log('jestem w plView:  ', playlists.length)
     
-    }, [selectedId, playlists, playlistsResults])
+    }, [playlistsResults, selectedId])
 
     /* TODO:
     zad 15.04.21
@@ -87,6 +89,7 @@ export const PlaylistsView = ({ onSearch, playlistsResults }: Props) => {
     }
 
     const changeSelectedPlaylist = (id: Playlist['id']): void => {
+        setMode('details')
         setSelectedId(selectedId => selectedId === id ? undefined : id)
     }
 

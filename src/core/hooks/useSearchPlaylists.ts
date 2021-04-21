@@ -22,7 +22,7 @@ export const useSearchPlaylists = (api_url: string) => {
             });
 
             setPlaylistsResults(response.data.playlists.items);
-            console.log('dupa')
+            console.log('results in the hook ', playlistsResults.length)
         }
         catch (error) { setMessage(error.message); }
         finally { setIsLoading(false); }
