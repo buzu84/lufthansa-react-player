@@ -24,6 +24,13 @@ export interface AlbumView {
     type:                   'album';
 }
 
+// export interface ArtistView {
+//     id:                     string;
+//     images:                 Image[];
+//     name:                   string;
+//     type:                   'artist';
+// }
+
 export interface Album {
     id:                     string;
     images:                 Image[];
