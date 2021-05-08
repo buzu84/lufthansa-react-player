@@ -23,7 +23,7 @@ describe('PlaylistsTDD', () => {
     const server = setupServer(
         rest.get('https://api.spotify.com/v1/me/playlists', (req, res, ctx) => {
             ctx.delay(500)
-            return res(ctx.json(mockPlaylists))
+            return res(ctx.json({ items: mockPlaylists }))
         }),
         rest.get('https://api.spotify.com/v1/playlists/:playlist_id', (req, res, ctx) => {
             return res(ctx.json(mockPlaylists.find(p => p.id == req.params.playlist_id)))

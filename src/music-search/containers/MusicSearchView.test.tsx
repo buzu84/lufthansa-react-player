@@ -12,7 +12,7 @@ jest.mock('../../core/hooks/useSearchAlbums')
     useFetch() { return [{}] }
 }) )*/
 
-describe.only('MusicSearchView', () => {
+describe.skip('MusicSearchView', () => {
     const setup = ({
         results = undefined as any,
         isLoading = false,
