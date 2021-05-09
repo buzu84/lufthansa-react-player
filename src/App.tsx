@@ -1,6 +1,5 @@
 import React from 'react';
 import { PlaylistsView } from './playlists/containers/PlaylistsView';
-import PlaylistTracks from './playlists/containers/PlaylistTracks';
 
 // npm i bootstrap
 import 'bootstrap/dist/css/bootstrap.css'
@@ -21,9 +20,7 @@ function App() {
 
             <Switch>
               <Redirect path="/" exact={true} to="/playlists" />
-              <Route path="/playlists/:playlist_id/" component={PlaylistsView} />
-              <Route path="/playlists/" component={PlaylistsView} />
-              <Route path="/tracks/" component={PlaylistTracks} />
+              <Route path="/playlists" component={PlaylistsView} />
               <Route path="/search" component={MusicSearchView} />
               <Route path="*" render={() => <h1>Page Not Found</h1>} />
             </Switch>

@@ -98,6 +98,3 @@ export interface Track {
     track_number:      number;
     uri:               string;
 }
-
-
-export type SimpleTrack = Pick<Track,'id'|'name'>
