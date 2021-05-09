@@ -11,7 +11,7 @@ describe('PlaylistDetails', () => {
             id: '123', description: 'opis', name: 'placki', public: true, ...zmiany
         };
         const editSpy = jest.fn(() => 'fake return value')
-        const { container } = render(<PlaylistDetails playlist={mockPlaylist} edit={editSpy} />)
+        const { container } = render(<PlaylistDetails playlist={mockPlaylist} onEdit={editSpy} />)
         // screen.debug(elem)
         return { container, editSpy }
     }

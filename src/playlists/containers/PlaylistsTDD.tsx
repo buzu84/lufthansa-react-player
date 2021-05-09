@@ -36,7 +36,7 @@ export const PlaylistsTDD = (props: Props) => {
                     />
                 </div>
                 <div className="col">
-                    {selectedPlaylist && <PlaylistDetails playlist={selectedPlaylist} edit={() => { }} />}
+                    {selectedPlaylist && <PlaylistDetails playlist={selectedPlaylist} onEdit={() => { }} />}
 
                 </div>
             </div>

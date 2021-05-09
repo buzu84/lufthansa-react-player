@@ -123,7 +123,7 @@ export const PlaylistsView = (props: Props) => {
                         />} />}
 
                         {selectedPlaylist && <Route path="/playlists/:playlist_id/" exact={true} render={() => <PlaylistDetails
-                            edit={edit}
+                            onEdit={edit}
                             playlist={selectedPlaylist} />} />}
 
                         {selectedPlaylist && <Route path="/playlists/:playlist_id/edit" render={() => <PlaylistEditForm

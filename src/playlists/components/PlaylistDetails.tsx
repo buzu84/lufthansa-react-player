@@ -4,33 +4,37 @@ import styles from './PlaylistDetails.module.css'
 
 interface Props {
     playlist: Playlist;
-    edit: () => void
+    onEdit: () => void
 }
 
 
 export const PlaylistDetails: React.FC<Props> = ({
     playlist,
-    edit
+    onEdit
 }) => {
 
     return (
-        <div>
-            <dl data-playlist-id={playlist.id}>
-                <dt>Name:</dt>
+        <div className="card">
+            <div className="card-body">
 
-                <dd aria-label="Playlist Name" 
-                    data-testid="playlist_name">{playlist.name}</dd>
+                <dl data-playlist-id={playlist.id}>
+                    <dt>Name:</dt>
 
-                <dt>Public:</dt>
-                <dd data-testid="playlist_ispublic" className={playlist.public ? styles.playlistPublic : styles.playlistPrivate}>
-                    {playlist.public ? 'Yes' : 'No'}
-                </dd>
+                    <dd aria-label="Playlist Name"
+                        data-testid="playlist_name">{playlist.name}</dd>
 
-                <dt>Description:</dt>
-                <dd data-testid="playlist_description">{playlist.description}</dd>
-            </dl>
+                    <dt>Public:</dt>
+                    <dd data-testid="playlist_ispublic" className={playlist.public ? styles.playlistPublic : styles.playlistPrivate}>
+                        {playlist.public ? 'Yes' : 'No'}
+                    </dd>
 
-            <button className="btn btn-danger" onClick={edit}>Edit</button>
+                    <dt>Description:</dt>
+                    <dd data-testid="playlist_description">{playlist.description}</dd>
+                </dl>
+                <hr />
+                <button className="btn btn-danger" onClick={onEdit}>Edit</button>
+            </div>
+
         </div>
     )
 }/* , (prevProps, nextProps) => prevProps.playlist === nextProps.playlist */
