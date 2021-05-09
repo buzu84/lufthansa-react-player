@@ -1,14 +1,24 @@
-import React, { useEffect, useLayoutEffect, useRef, useState } from 'react'
+import React, { ForwardedRef, forwardRef, Ref, RefObject, useEffect, useImperativeHandle, useLayoutEffect, useRef, useState } from 'react'
 
 interface Props {
     query?: string
     onSearch(query: string): void,
 }
 
-export const SearchForm = ({ onSearch, query: parentQuery = '' }: Props) => {
+// export const SearchForm = forwardRef(({ onSearch, query: parentQuery = '' }: Props, formRef: ForwardedRef<HTMLInputElement>) => {
+export const SearchForm = forwardRef(({ onSearch, query: parentQuery = '' }: Props, formRef: ForwardedRef<{ reset(): void }>) => {
     const [query, setQuery] = useState(parentQuery)
     const queryRef = useRef<HTMLInputElement>(null)
     // const isFirst = useRef(true)
+
+    useImperativeHandle(formRef, () => ({
+        reset() {
+            setQuery('')
+        },
+        focus() {
+            (typeof queryRef === 'object') && queryRef?.current?.focus()
+        }
+    }), [])
 
     useEffect(() => { setQuery(parentQuery) }, [parentQuery])
 
@@ -24,14 +34,17 @@ export const SearchForm = ({ onSearch, query: parentQuery = '' }: Props) => {
     }, [query])
 
     useEffect(() => {
-        queryRef.current?.focus()
+        if (typeof queryRef === 'object') {
+            queryRef?.current?.focus()
+        }
     }, [])
 
     return (
         <div>
             <div className="input-group mb-3">
 
-                <input type="text" className="form-control" placeholder="Search" id="query_id" ref={queryRef}
+                <input type="text" className="form-control" placeholder="Search" id="query_id"
+                    ref={queryRef}
                     value={query}
                     onChange={e => setQuery(e.target.value)}
                     onKeyUp={e => {
@@ -45,4 +58,4 @@ export const SearchForm = ({ onSearch, query: parentQuery = '' }: Props) => {
             </div>
         </div>
     )
-}
+})

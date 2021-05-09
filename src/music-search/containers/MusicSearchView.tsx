@@ -1,4 +1,4 @@
-import React, { useCallback, useEffect } from 'react'
+import React, { useCallback, useEffect, useRef } from 'react'
 import { Album, AlbumView } from '../../model/Search'
 import { AlbumGrid } from '../components/AlbumGrid'
 import { SearchForm } from '../../core/components/SearchForm'
@@ -6,10 +6,11 @@ import { fetchAlbums, fetchArtists, useSearchAlbums } from '../../core/hooks/use
 import { useFetch } from '../../core/hooks/useFetch'
 import { RouteComponentProps, useHistory, useLocation } from 'react-router'
 
-interface Props  { }
+interface Props { }
 
 export const MusicSearchView = (props: Props) => {
     const [{ isLoading, message, results, params: query }, setQuery] = useFetch(fetchAlbums)
+    const ref = useRef<{ reset(): void } | null>(null)
 
     const { push, replace } = useHistory()
     const { search: searchParams } = useLocation()
@@ -29,7 +30,7 @@ export const MusicSearchView = (props: Props) => {
         <div>
             <div className="row">
                 <div className="col">
-                    <SearchForm onSearch={search} query={query || ''} />
+                    <SearchForm onSearch={search} query={query || ''} ref={ref} />
                 </div>
             </div>
             <div className="row">

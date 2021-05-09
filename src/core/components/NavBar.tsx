@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { forwardRef, useImperativeHandle, useRef, useState } from 'react'
 import { Link, NavLink } from 'react-router-dom'
 
 interface Props {
@@ -28,6 +28,9 @@ export const NavBar = (props: Props) => {
                             <li className="nav-item">
                                 <NavLink className="nav-link" to="/search">Search</NavLink>
                             </li>
+                            <li className="nav-item">
+                                <NavLink className="nav-link" to="/tracks">Tracks</NavLink>
+                            </li>
                             {/* <LinkDecorator to="/playlists" className="nav-link" /> */}
                         </ul>
                     </div>
@@ -53,4 +56,21 @@ export const LinkDecorator: React.FC<
         }} >{children}</a>
     }
 
-const IsADecorator: React.FC<{ tag: string }> = ({ tag, children, ...rest }) => React.createElement(tag, {...rest}, children)
+const IsADecorator: React.FC<{ tag: string }> = ({ tag, children, ...rest }) => React.createElement(tag, { ...rest }, children)
+
+
+const FancyInput = forwardRef(function ({ ...restProps }: any, ref: React.Ref<any>) {
+    const inputRef = useRef<any>();
+
+    useImperativeHandle(ref, () => ({
+        focus: () => {
+            inputRef.current.focus();
+        }
+    }),[]);
+    
+    return <div>
+        <input ref={inputRef} {...restProps} />
+    </div>;
+});
+
+{/* <FancyInput ref={mojRef} /> */ }
