@@ -15,14 +15,14 @@ export const PlaylistTracksHooks = (props: Props) => {
     // - store state
     // - store actions
     // - select from store
-    //      - playlists,  
-    //      - selected playlist, 
+    //      - playlists,
+    //      - selected playlist,
     //      - selected plalyist tracks
     //      - selected track
     // - dispatch to store
     //      - load playlists,
-    //      - select playlist, 
-    //      - select track, 
+    //      - select playlist,
+    //      - select track,
     //      - update track
     // ???
 
