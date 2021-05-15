@@ -21,6 +21,7 @@ export default {
 } as Meta;
 
 const Template: Story<Parameters<typeof NavBar>[0]> = (args) => <NavBar {...args} />;
+// [0] -- pierwszy parametr czyli propsy :)
 
 export const Primary = Template.bind({});
 Primary.args = {

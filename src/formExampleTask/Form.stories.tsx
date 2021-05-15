@@ -10,7 +10,10 @@ export default {
     decorators: [
         Story => <div style={{ maxWidth: 500, margin: '0 auto' }} >{Story()}</div>
         // Story => <div style={{ maxWidth: 500, margin: '0 auto' }} ><Story /></div>
-    ]
+    ],
+    args: {
+        
+    }
 } as Meta
 
 

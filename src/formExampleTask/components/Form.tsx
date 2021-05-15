@@ -50,7 +50,7 @@ export const Form: React.FC = () => {
     const validationErrors: [] = [];
     console.log('validate odpalone')
     return validationErrors;
-}
+  }
 
   return (
     <form>
@@ -61,7 +61,7 @@ export const Form: React.FC = () => {
         placeholder="name"
         value={Name}
         onChange={onChangeName} />
-        {Email}
+      {Email}
       <input name="email"
         id="email"
         placeholder="email"
