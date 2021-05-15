@@ -1,5 +1,6 @@
-import React, { forwardRef, useImperativeHandle, useRef, useState } from 'react'
+import React, { forwardRef, useContext, useImperativeHandle, useRef, useState } from 'react'
 import { Link, NavLink } from 'react-router-dom'
+import { UserContext } from '../contexts/UserContext'
 
 interface Props {
 
@@ -33,12 +34,39 @@ export const NavBar = (props: Props) => {
                             </li>
                             {/* <LinkDecorator to="/playlists" className="nav-link" /> */}
                         </ul>
+                        <div className="navbar-text ml-auto">
+                            <UserWidget />
+                        </div>
                     </div>
                 </div>
             </nav>
         </div>
     )
 }
+
+export const UserWidget = () => {
+    const { login, logout, user } = useContext(UserContext)
+
+    return user ?
+        <span>Welcome {user.display_name} |
+    <span className="text-white" onClick={logout}> Logout</span></span>
+        :
+        <span>Welcome Guest |
+    <span className="text-white" onClick={login}> Login</span></span>
+}
+
+{/* <UserContext.Consumer>{({ user, login, logout }) => <>
+{user ?
+    <span>Welcome {user.display_name} |
+    <span className="text-white" onClick={logout}> Logout</span></span>
+    :
+    <span>Welcome Guest |
+    <span className="text-white" onClick={login}> Login</span></span>
+}
+</>}</UserContext.Consumer> */}
+
+
+
 
 export const LinkDecorator: React.FC<
     { to: string } & React.DetailedHTMLProps<React.AnchorHTMLAttributes<HTMLAnchorElement>, HTMLAnchorElement>
@@ -66,8 +94,8 @@ const FancyInput = forwardRef(function ({ ...restProps }: any, ref: React.Ref<an
         focus: () => {
             inputRef.current.focus();
         }
-    }),[]);
-    
+    }), []);
+
     return <div>
         <input ref={inputRef} {...restProps} />
     </div>;

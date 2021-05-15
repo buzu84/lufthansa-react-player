@@ -7,14 +7,30 @@ import './core/services';
 import { auth } from './core/services';
 // import { HashRouter as Router } from 'react-router-dom';
 import { BrowserRouter as Router } from 'react-router-dom';
+import { UserContextProvider } from './core/contexts/UserContext';
+import { store } from './store';
+import { playlistsLoad } from './core/reducers/PlaylistsReducer';
+import { Playlist } from './model/Playlist';
+import { Provider } from 'react-redux';
 
-auth.init()
+(window as any).store = store;
+
+// store.subscribe(()=> console.log(store.getState()) )
+
+// store.dispatch({type:'INC', payload:42}) 
+
+auth.init();
+
 
 ReactDOM.render(
   <React.StrictMode>
-    <Router>
-      <App />
-    </Router>
+    <UserContextProvider>
+      <Provider store={store}>
+        <Router>
+          <App />
+        </Router>
+      </Provider>
+    </UserContextProvider>
   </React.StrictMode>,
   document.getElementById('root')
 );
@@ -28,3 +44,40 @@ ReactDOM.render(
 // reportWebVitals();
 
 reportWebVitals()
+
+
+
+const data: Playlist[] = [
+  {
+    id: '123',
+    name: 'Playlista 😇',
+    public: true,
+    description: 'no i co ja dzis polubie?..🤔',
+    tracks: [
+      { id: '123', name: 'Track 123' },
+      { id: '234', name: 'Track 234' },
+      { id: '345', name: 'Track 345' },
+    ]
+  },
+  {
+    id: '234',
+    name: 'Playlista 😁',
+    public: false,
+    description: 'moze polubię TypeScript?. 🚀',
+    tracks: [
+      { id: '123a', name: 'Track ABC' },
+      { id: '234d', name: 'Track DEF' },
+      { id: '345b', name: 'Track GHI' },
+    ]
+  },
+  {
+    id: '345',
+    name: 'Playlista 😆',
+    public: true,
+    description: 'albo wszystko polubię co mi tam 😅💖',
+    tracks: [
+      { id: '123d', name: 'Track XYZ' },
+    ]
+  },
+]
+store.dispatch(playlistsLoad(data))
