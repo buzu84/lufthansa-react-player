@@ -6,6 +6,7 @@ import { AppState } from "../../store";
 export interface TracksState {
     playlists: Playlist[]
     tracks: { [key: string]: SimpleTrack }
+    // przechodzenie danych miedzy playlistami chyba nie działa
     selectedPlaylistId?: Playlist['id']
     selectedTrackId?: Track['id']
 }
@@ -39,6 +40,7 @@ const initialState: TracksState = {
     tracks: {
     }
 }
+
 const reducer: Reducer<TracksState, Actions> = (
     state = initialState,
     action
@@ -88,6 +90,22 @@ export const tracksUpdate = (draft: SimpleTrack): TRACKS_UPDATE => ({
     type: 'TRACKS_UPDATE', payload: { draft }
 })
 
+
+export const selectPlaylists = (state: AppState) => state.tracks.playlists
+
+export const selectPlaylist = (state: AppState) => {
+    return state.tracks.playlists.find(p => p.id == state.tracks.selectedPlaylistId)
+}
+
+export const selectSelectedPlaylistTracks = (state: AppState) => {
+    return selectPlaylist(state)?.tracks?.map(track => state.tracks.tracks[track.id]) || [] as SimpleTrack[]
+}
+
+export const selectTracks = (state: AppState) => selectPlaylist(state)?.tracks || []
+
+export const selectSelectedTrack = (state: AppState) => {
+    return state.tracks.selectedTrackId && state.tracks.tracks[state.tracks.selectedTrackId] || undefined
+}
 
 function reduceTracks(state: { [k: string]: SimpleTrack }, tracks: SimpleTrack[]) {
     return tracks.reduce((tracks, track) => {
