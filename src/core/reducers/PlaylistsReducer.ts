@@ -4,6 +4,8 @@ import { Playlist } from "../../model/Playlist";
 export interface PlaylistsState {
     items: Playlist[]
     selectedId?: Playlist['id']
+    //tracks: { [key: string ?* Track['id] *?]}: Track
+    // Q1
 }
 
 type PLAYLISTS_LOAD = {
