@@ -69,10 +69,24 @@ const reducer: Reducer<TracksState, Actions> = (
 }
 export default reducer as () => TracksState
 
+export const tracksPlaylistsLoad = (items: Playlist[]): PLAYLISTS_LOAD => ({
+    type: 'PLAYLISTS_LOAD', payload: { items }
+})
+
 export const tracksLoad = (items: SimpleTrack[]): TRACKS_LOAD => ({
     type: 'TRACKS_LOAD', payload: { items }
 })
-// ???
+
+export const tracksPlaylistsSelect = (id: Playlist['id']): PLAYLISTS_SELECT => ({
+    type: 'PLAYLISTS_SELECT', payload: { id }
+})
+
+export const tracksSelect = (id: SimpleTrack['id']): TRACKS_SELECT => ({
+    type: 'TRACKS_SELECT', payload: { id }
+})
+export const tracksUpdate = (draft: SimpleTrack): TRACKS_UPDATE => ({
+    type: 'TRACKS_UPDATE', payload: { draft }
+})
 
 
 function reduceTracks(state: { [k: string]: SimpleTrack }, tracks: SimpleTrack[]) {
