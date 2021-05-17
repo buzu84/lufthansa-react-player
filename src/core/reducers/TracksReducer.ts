@@ -73,3 +73,11 @@ export const tracksLoad = (items: SimpleTrack[]): TRACKS_LOAD => ({
     type: 'TRACKS_LOAD', payload: { items }
 })
 // ???
+
+
+function reduceTracks(state: { [k: string]: SimpleTrack }, tracks: SimpleTrack[]) {
+    return tracks.reduce((tracks, track) => {
+        tracks[track.id] = track;
+        return tracks;
+    }, state)
+}
