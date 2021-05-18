@@ -2,11 +2,20 @@ import React, { useCallback, useEffect, useRef } from 'react'
 import { useHistory, useLocation } from 'react-router'
 import { SearchForm } from '../../core/components/SearchForm';
 import { fetchAlbums } from '../../core/hooks/useSearchAlbums';
-import reducer, { initialState, searchFailed, searchStart, searchSuccess } from '../../core/reducers/SearchReducer';
-import { AlbumView } from '../../model/Search';
+import { 
+    searchFailed, 
+    searchStart, 
+    searchSuccess, 
+    selectSearchQuery, 
+    selectSearchResults, 
+    selectSearchState 
+} from '../../core/reducers/SearchReducer';
+
+// import { AlbumView } from '../../model/Search';
 import { AlbumGrid } from '../components/AlbumGrid';
 import { useDispatch, useSelector } from 'react-redux';
 import { AppState } from '../../store';
+
 
 interface Props { }
 
@@ -20,12 +29,9 @@ export const MusicSearchView = (props: Props) => {
     const { search: searchParams } = useLocation()
 
     const dispatch = useDispatch()
-    const { 
-        isLoading, 
-        message, 
-        query, 
-        results 
-    } = useSelector((state: AppState) => state.search)
+    const { isLoading, message } = useSelector(selectSearchState)
+    const query = useSelector(selectSearchQuery)
+    const results = useSelector(selectSearchResults)
 
     useEffect(() => {
         const q = new URLSearchParams(searchParams.slice(1)).get('q')

@@ -2,7 +2,14 @@ import { Reducer } from "react";
 import { AlbumView } from "../../model/Search";
 import { AppState } from "../../store";
 
-interface SearchState { query: string, isLoading: boolean, message: string, results: AlbumView[] }
+interface SearchState {
+    query: string,
+    isLoading: boolean,
+    message: string,
+    results: AlbumView['id'][]
+    entities: { [k: string]: AlbumView }
+}
+
 type Actions =
     | SEARCH_START
     | SEARCH_SUCCESS
@@ -12,14 +19,15 @@ type SEARCH_START = { type: 'SEARCH_START', payload: { query: string } }
 type SEARCH_SUCCESS = { type: 'SEARCH_SUCCESS', payload: { results: AlbumView[] } }
 type SEARCH_FAILED = { type: 'SEARCH_FAILED', payload: { error: Error } }
 
-export const searchStart = (query: string): SEARCH_START => ({ type: 'SEARCH_START', payload: { query } })
-export const searchSuccess = (results: AlbumView[]): SEARCH_SUCCESS => ({ type: 'SEARCH_SUCCESS', payload: { results } })
-export const searchFailed = (error: Error): SEARCH_FAILED => ({ type: 'SEARCH_FAILED', payload: { error } })
-
-export const initialState:SearchState = { query: '', isLoading: false, message: '', results: [] as AlbumView[] }
-// Extract Types from existing JS objects and functions:
-// type State = typeof initialState;
-// type SEARCH_START = ReturnType<typeof searchStart>;
+export const initialState: SearchState = {
+    query: '',
+    isLoading: false,
+    message: '',
+    results: [],
+    entities: {
+        
+    }
+}
 
 const reducer = (state = initialState, action: Actions): SearchState => {
 
@@ -28,7 +36,13 @@ const reducer = (state = initialState, action: Actions): SearchState => {
             ...state, isLoading: true, query: action.payload.query, message: ''
         }
         case 'SEARCH_SUCCESS': return {
-            ...state, isLoading: false, results: action.payload.results
+            ...state, isLoading: false,
+            results: action.payload.results.map(a => a.id),
+            // zaindeksowanie albumow:(zeby przechowywac jako liste-entities)
+            entities: action.payload.results.reduce((entities, album) => ({
+                ...entities,
+                [album.id]: album
+            }), state.entities)
         }
         case 'SEARCH_FAILED': return {
             ...state, isLoading: false, message: action.payload.error?.message || 'Unexpected Error'
@@ -41,12 +55,18 @@ const reducer = (state = initialState, action: Actions): SearchState => {
 
 export default reducer as () => SearchState
 
-// selectors:
+// action creators-settery
+export const searchStart = (query: string): SEARCH_START => ({ type: 'SEARCH_START', payload: { query } })
+export const searchSuccess = (results: AlbumView[]): SEARCH_SUCCESS => ({ type: 'SEARCH_SUCCESS', payload: { results } })
+export const searchFailed = (error: Error): SEARCH_FAILED => ({ type: 'SEARCH_FAILED', payload: { error } })
+
+// selectors-gettery:)
 export const selectSearchState = (state: AppState) => state.search
 
 export const selectSearchQuery = (state: AppState): string => selectSearchState(state).query
 
-// export const selectSearchResults = (state: AppState): AlbumView[] => {
-//     const search = selectSearchState(state)
-//     return search.results.map(id => search.entities[id])
-// }
+export const selectSearchResults = (state: AppState): AlbumView[] => {
+    const search = selectSearchState(state)
+    // obiekty wrzucamy do mapy:(z id wyszukuje dany obiekt)
+    return search.results.map(id => search.entities[id])
+}
