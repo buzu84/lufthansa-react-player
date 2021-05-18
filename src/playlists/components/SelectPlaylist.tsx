@@ -1,5 +1,7 @@
 import React, { Component } from 'react'
 import { Playlist } from '../../model/Playlist'
+// import { useDispatch, useSelector } from 'react-redux'
+// import { pickPlaylist } from '../../core/reducers/SearchReducer'
 
 interface Props {
     playlists: Playlist[]
@@ -9,23 +11,28 @@ interface State {
 
 }
 
-export default class SelectPlaylist extends Component<Props, State> {
-    state = {}
 
-    render() {
+
+export const SelectPlaylist = (props: Props) => {
+    const state = {}
+    
+    // const dispatch = useDispatch()
+// onSelect={() => { dispatch(pickPlaylist(playlist.id)) }}
+    
         return (
             <div>
                 <label>SelectPlaylist</label>
                 <select className="form-control" onChange={e => {
                     const playlist_id = e.currentTarget.selectedOptions[0].value
-                    this.props.onSelect(playlist_id);
+                    props.onSelect(playlist_id);
                 }}>
                     <option>-- Please select playlist --</option>
-                    {this.props.playlists.map(playlist => <option key={playlist.id} value={playlist.id}>
+                    {props.playlists.map(playlist => <option key={playlist.id} value={playlist.id} 
+                     >
                         {playlist.name}
                     </option>)}
                 </select>
             </div>
         )
     }
-}
+

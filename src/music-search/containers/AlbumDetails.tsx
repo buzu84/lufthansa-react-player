@@ -2,8 +2,8 @@ import React, { useEffect } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import { useParams } from 'react-router'
 import { fetchAlbumById } from '../../core/hooks/usePlaylists'
-import { fetchAlbumFailed, fetchAlbumStart, fetchAlbumSuccess, selectAlbum, selectAlbumFetchState } from '../../core/reducers/SearchReducer'
-import SelectPlaylist from '../../playlists/components/SelectPlaylist'
+import { fetchAlbumFailed, fetchAlbumStart, fetchAlbumSuccess, selectAlbum, selectAlbumFetchState, pickPlaylist, selectPlaylists } from '../../core/reducers/SearchReducer'
+import { SelectPlaylist } from '../../playlists/components/SelectPlaylist'
 import { AlbumCard } from '../components/AlbumCard'
 import { AppState } from '../../store'
 
@@ -30,8 +30,14 @@ export const AlbumDetails = (props: Props) => {
     // Get ID from router
     const dispatch = useDispatch()
     const { isLoading, message } = useSelector(selectAlbumFetchState)
+    const { playlistId } = useSelector(selectPlaylists)
+    // const { playlistIdId } = useSelector((state: AppState) =>
+    // state.playlists.items.map(el=> el.id))
+
     const album = useSelector(selectAlbum)
     const { album_id } = useParams<{ album_id: string }>()
+
+    // pobieram playlist z store do zapopuloania selecta
     const playlists = useSelector((state: AppState) =>
         state.playlists.items)
 
@@ -43,6 +49,8 @@ export const AlbumDetails = (props: Props) => {
             .then(data => { dispatch(fetchAlbumSuccess(data)) })
             .catch(error => { dispatch(fetchAlbumFailed(error)) })
     }, [album_id])
+
+    // useEffect(() => { dispatch(pickPlaylist(playlistId)) }, [playlistId])
 
     if (isLoading) { return <Loading /> }
 
@@ -74,19 +82,22 @@ export const AlbumDetails = (props: Props) => {
 
                     {/* 
                         TODO:
-                            - search results - clicking PhilCollins redirects here with ID
-                            - show list of playlists below
+                            - search results - clicking PhilCollins redirects here with ID +
+                            - show list of playlists below +
                             - dispatch select playlist 
-                            - show tracks
+                            - show tracks +
                             - on button click add track to selected playlist
                     */}
 
-                    <SelectPlaylist playlists={playlists} onSelect={() => { }} />
+                    <SelectPlaylist playlists={playlists} 
+                    onSelect={() => { dispatch(pickPlaylist(playlistId)) }} />
+                    xxx{playlistId}
 
                     <h3>Tracks</h3>
                     {album?.tracks?.items.map(track =>
                         <p key={track.id}>
-                            {track.name} (+)
+                            {track.name} 
+                            <button className="btn btn-info ml-3">+</button>
                         </p>
                     )}
 

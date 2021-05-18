@@ -1,5 +1,6 @@
 import { Album, AlbumView } from "../../model/Search";
 import { AppState } from "../../store";
+import { Playlist } from "../../model/Playlist";
 
 interface SearchState {
     albumId?: Album['id']
@@ -8,6 +9,7 @@ interface SearchState {
     message: string,
     results: AlbumView['id'][]
     entities: { [k: string]: Album }
+    playlistId: Playlist['id']
 }
 
 type Actions =
@@ -17,6 +19,7 @@ type Actions =
     | FETCH_ALBUM_START
     | FETCH_ALBUM_SUCCESS
     | FETCH_ALBUM_FAILED
+    | PICKED_PLAYLIST
 
 type FETCH_ALBUM_START = { type: 'FETCH_ALBUM_START', payload: { id: Album['id'] } }
 type FETCH_ALBUM_SUCCESS = { type: 'FETCH_ALBUM_SUCCESS', payload: { result: Album } }
@@ -26,6 +29,8 @@ type SEARCH_START = { type: 'SEARCH_START', payload: { query: string } }
 type SEARCH_SUCCESS = { type: 'SEARCH_SUCCESS', payload: { results: Album[] } }
 type SEARCH_FAILED = { type: 'SEARCH_FAILED', payload: { error: Error } }
 
+type PICKED_PLAYLIST = { type: 'PICKED_PLAYLIST', payload: { id: Playlist['id']}}
+
 export const initialState: SearchState = {
     query: '',
     isLoading: false,
@@ -33,7 +38,8 @@ export const initialState: SearchState = {
     results: [],
     entities: {
         /// "123":{...album...}
-    }
+    },
+    playlistId: ''
 }
 
 const reducer = (
@@ -72,6 +78,13 @@ const reducer = (
         case 'FETCH_ALBUM_FAILED': return {
             ...state, message: action.payload.error?.message, isLoading: false
         }
+        // select playlist from dropdown
+        case 'PICKED_PLAYLIST': 
+        console.log('reducer action payload: ', action.payload)
+        return {
+            ...state, playlistId: action.payload.id, isLoading: false
+        }
+        
         default:
             return state
     }
@@ -80,9 +93,6 @@ const reducer = (
 
 export default reducer as () => SearchState
 
-/* 
-    PUBLIC ACCESS :
-*/
 
 /* Action Creators */
 export const searchStart = (query: string): SEARCH_START => ({ type: 'SEARCH_START', payload: { query } })
@@ -100,6 +110,11 @@ export const fetchAlbumFailed = (error: Error): FETCH_ALBUM_FAILED => ({
     type: 'FETCH_ALBUM_FAILED', payload: { error }
 })
 
+
+export const pickPlaylist = (id: string): PICKED_PLAYLIST => ({
+    type: 'PICKED_PLAYLIST', payload: { id }
+})
+
 /* Store Selector */
 export const selectSearchState = (state: AppState) => state.search
 
@@ -114,4 +129,8 @@ export const selectSearchResults = (state: AppState): AlbumView[] => {
 export const selectAlbumFetchState = (state: AppState) => state.search
 export const selectAlbum = (state: AppState) => {
     return state.search.albumId? state.search.entities[state.search.albumId] : undefined
+}
+
+export const selectPlaylists = (state: AppState) => {
+    return state.search
 }
