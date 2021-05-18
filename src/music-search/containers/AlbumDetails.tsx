@@ -5,6 +5,7 @@ import { fetchAlbumById } from '../../core/hooks/usePlaylists'
 import { fetchAlbumFailed, fetchAlbumStart, fetchAlbumSuccess, selectAlbum, selectAlbumFetchState } from '../../core/reducers/SearchReducer'
 import SelectPlaylist from '../../playlists/components/SelectPlaylist'
 import { AlbumCard } from '../components/AlbumCard'
+import { AppState } from '../../store'
 
 interface Props {
 
@@ -31,6 +32,8 @@ export const AlbumDetails = (props: Props) => {
     const { isLoading, message } = useSelector(selectAlbumFetchState)
     const album = useSelector(selectAlbum)
     const { album_id } = useParams<{ album_id: string }>()
+    const playlists = useSelector((state: AppState) =>
+        state.playlists.items)
 
     useEffect(() => {
 
@@ -78,12 +81,12 @@ export const AlbumDetails = (props: Props) => {
                             - on button click add track to selected playlist
                     */}
 
-                    <SelectPlaylist playlists={[]} onSelect={() => { }} />
+                    <SelectPlaylist playlists={playlists} onSelect={() => { }} />
 
                     <h3>Tracks</h3>
-                    {album?.tracks.items.map(track =>
-                        <p>
-                            .... (+) add to selected playlist
+                    {album?.tracks?.items.map(track =>
+                        <p key={track.id}>
+                            {track.name} (+)
                         </p>
                     )}
 
