@@ -1,5 +1,6 @@
 import { Reducer } from "react";
 import { AlbumView } from "../../model/Search";
+import { AppState } from "../../store";
 
 interface SearchState { query: string, isLoading: boolean, message: string, results: AlbumView[] }
 type Actions =
@@ -39,3 +40,13 @@ const reducer = (state = initialState, action: Actions): SearchState => {
 }
 
 export default reducer as () => SearchState
+
+// selectors:
+export const selectSearchState = (state: AppState) => state.search
+
+export const selectSearchQuery = (state: AppState): string => selectSearchState(state).query
+
+// export const selectSearchResults = (state: AppState): AlbumView[] => {
+//     const search = selectSearchState(state)
+//     return search.results.map(id => search.entities[id])
+// }

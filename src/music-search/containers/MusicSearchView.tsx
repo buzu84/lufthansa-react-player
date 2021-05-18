@@ -32,10 +32,10 @@ export const MusicSearchView = (props: Props) => {
         if (!q) { return; }
         window.document.title = 'Searching ' + q
 
-        // dispatch(searchStart(q))
-        // fetchAlbums(q)
-        //     .then(res => dispatch(searchSuccess(res)))
-        //     .catch(error => dispatch(searchFailed(error)))
+        dispatch(searchStart(q))
+        fetchAlbums(q)
+            .then(res => dispatch(searchSuccess(res)))
+            .catch(error => dispatch(searchFailed(error)))
 
     }, [searchParams])
 
@@ -47,17 +47,17 @@ export const MusicSearchView = (props: Props) => {
         <div>
             <div className="row">
                 <div className="col">
-                    {/* <SearchForm onSearch={search} query={query || ''} ref={ref} /> */}
+                    <SearchForm onSearch={search} query={query} ref={ref} />
                 </div>
             </div>
             <div className="row">
                 <div className="col">
-                    {/* {isLoading && <p className="alert alert-info">Loading</p>}
+                    {isLoading && <p className="alert alert-info">Loading</p>}
                     {message && <p className="alert alert-danger">{message}</p>}
 
                     {results && <div data-testid="search-results">
                         <AlbumGrid albums={results} />
-                    </div>} */}
+                    </div>}
                 </div>
             </div>
         </div>
