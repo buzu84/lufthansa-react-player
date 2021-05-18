@@ -8,6 +8,7 @@ interface SearchState {
     results: AlbumView['id'][]
     entities: { [k: string]: AlbumView }
     albumId?: Album['id']
+    // aby zapamietał który jest aktualny
     album?: Album
 }
 type Actions =
@@ -20,8 +21,11 @@ type Actions =
 
 type SEARCH_START = { type: 'SEARCH_START', payload: { query: string } }
 type SEARCH_SUCCESS = { type: 'SEARCH_SUCCESS', payload: { results: AlbumView[] } }
+// jak wyszukuje to album view(niepełny)
 type SEARCH_FAILED = { type: 'SEARCH_FAILED', payload: { error: Error } }
+// dla 1 albumu:
 type FETCH_ALBUM_START = { type: 'FETCH_ALBUM_START', payload: { id: Album['id'] } }
+// payloadem jest cały 1 album
 type FETCH_ALBUM_SUCCESS = { type: 'FETCH_ALBUM_SUCCESS', payload: { result: Album } }
 type FETCH_ALBUM_FAILED = { type: 'FETCH_ALBUM_FAILED', payload: { error: Error } }
 
@@ -57,7 +61,6 @@ const reducer = (
         case 'SEARCH_FAILED': return {
             ...state, isLoading: false, message: action.payload.error?.message || 'Unexpected Error'
         }
-        // for one album:
         case 'FETCH_ALBUM_START': return {
             ...state, albumId: action.payload.id, isLoading: true, message: '', album: undefined
         }
@@ -106,4 +109,6 @@ export const selectSearchResults = (state: AppState): AlbumView[] => {
 }
 
 // selector for one album:
+// moznaby rozpakowac ale wtedy kazda zmiana spowoduje rerender komponentu:
+// export const selectAlbumFetchState = ({search: {isLoading, message, album}}: AppState) => ({ isLoading, message, album })
 export const selectAlbumFetchState = (state: AppState) => state.search
