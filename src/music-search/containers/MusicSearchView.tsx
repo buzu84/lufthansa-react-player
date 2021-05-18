@@ -5,6 +5,8 @@ import { fetchAlbums } from '../../core/hooks/useSearchAlbums';
 import reducer, { initialState, searchFailed, searchStart, searchSuccess } from '../../core/reducers/SearchReducer';
 import { AlbumView } from '../../model/Search';
 import { AlbumGrid } from '../components/AlbumGrid';
+import { useDispatch, useSelector } from 'react-redux';
+import { AppState } from '../../store';
 
 interface Props { }
 
@@ -16,6 +18,14 @@ export const MusicSearchView = (props: Props) => {
     const ref = useRef<{ reset(): void } | null>(null)
     const { push, replace } = useHistory()
     const { search: searchParams } = useLocation()
+
+    const dispatch = useDispatch()
+    const { 
+        isLoading, 
+        message, 
+        query, 
+        results 
+    } = useSelector((state: AppState) => state.search)
 
     useEffect(() => {
         const q = new URLSearchParams(searchParams.slice(1)).get('q')
