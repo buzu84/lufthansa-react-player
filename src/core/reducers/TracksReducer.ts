@@ -8,6 +8,7 @@ export interface TracksState {
     tracks: { [key: string]: SimpleTrack }
     selectedPlaylistId?: Playlist['id']
     selectedTrackId?: Track['id']
+    playlistId: Playlist['id']
 }
 
 /* Action types */
@@ -29,7 +30,7 @@ type TRACKS_UPDATE = {
 type ADD_TRACK_TO_PLAYLIST = {
     type: 'ADD_TRACK_TO_PLAYLIST'; payload: { id: SimpleTrack['id'], name: SimpleTrack['name']; };
 };
-
+type PICKED_PLAYLIST = { type: 'PICKED_PLAYLIST', payload: { id: Playlist['id']}}
 
 type Actions =
     | PLAYLISTS_LOAD
@@ -38,12 +39,14 @@ type Actions =
     | TRACKS_SELECT
     | TRACKS_UPDATE
     | ADD_TRACK_TO_PLAYLIST
+    | PICKED_PLAYLIST
 
 const initialState: TracksState = {
     playlists: [],
     tracks: {
         // "123": {..track 123..}
     },
+    playlistId: ''
 
 }
 
@@ -72,6 +75,11 @@ const reducer: Reducer<TracksState, Actions> = (
         case 'TRACKS_LOAD': return {
             ...state,
             tracks: reduceTracks(state.tracks, action.payload.items)
+        }
+        case 'PICKED_PLAYLIST': 
+        console.log('reducer action payload: ', action.payload.id)
+        return {
+            ...state, playlistId: action.payload.id
         }
         case 'ADD_TRACK_TO_PLAYLIST': 
         console.log(action.payload)
@@ -112,6 +120,10 @@ export const addTrack = (id: SimpleTrack['id'], name: SimpleTrack['name']): ADD_
     type: 'ADD_TRACK_TO_PLAYLIST', payload: { id, name }
 })
 
+export const pickPlaylist = (id: string): PICKED_PLAYLIST => ({
+    type: 'PICKED_PLAYLIST', payload: { id }
+})
+
 /* Selectors */
 export const selectPlaylists = (state: AppState) => state.tracks.playlists
 
@@ -128,6 +140,8 @@ export const selectTracks = (state: AppState) => selectPlaylist(state)?.tracks |
 export const selectSelectedTrack = (state: AppState) => {
     return state.tracks.selectedTrackId && state.tracks.tracks[state.tracks.selectedTrackId] || undefined
 }
+
+
 
 
 /* Reducer helpers  */

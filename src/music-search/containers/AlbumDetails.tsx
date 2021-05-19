@@ -2,11 +2,11 @@ import React, { useEffect } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import { useParams } from 'react-router'
 import { fetchAlbumById } from '../../core/hooks/usePlaylists'
-import { fetchAlbumFailed, fetchAlbumStart, fetchAlbumSuccess, selectAlbum, selectAlbumFetchState, pickPlaylist } from '../../core/reducers/SearchReducer'
+import { fetchAlbumFailed, fetchAlbumStart, fetchAlbumSuccess, selectAlbum, selectAlbumFetchState } from '../../core/reducers/SearchReducer'
 import { SelectPlaylist } from '../../playlists/components/SelectPlaylist'
 import { AlbumCard } from '../components/AlbumCard'
 import { AppState } from '../../store'
-import { addTrack } from '../../core/reducers/TracksReducer'
+import { addTrack, pickPlaylist } from '../../core/reducers/TracksReducer'
 
 interface Props {
 
