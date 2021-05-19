@@ -130,8 +130,3 @@ export const selectAlbumFetchState = (state: AppState) => state.search
 export const selectAlbum = (state: AppState) => {
     return state.search.albumId? state.search.entities[state.search.albumId] : undefined
 }
-
-export const selectPlaylists = (state: AppState) => {
-    console.log('jestem w useSelectorze: ',state.search)
-    return state.search
-}

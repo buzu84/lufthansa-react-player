@@ -2,10 +2,11 @@ import React, { useEffect } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import { useParams } from 'react-router'
 import { fetchAlbumById } from '../../core/hooks/usePlaylists'
-import { fetchAlbumFailed, fetchAlbumStart, fetchAlbumSuccess, selectAlbum, selectAlbumFetchState, pickPlaylist, selectPlaylists } from '../../core/reducers/SearchReducer'
+import { fetchAlbumFailed, fetchAlbumStart, fetchAlbumSuccess, selectAlbum, selectAlbumFetchState, pickPlaylist } from '../../core/reducers/SearchReducer'
 import { SelectPlaylist } from '../../playlists/components/SelectPlaylist'
 import { AlbumCard } from '../components/AlbumCard'
 import { AppState } from '../../store'
+import { addTrack } from '../../core/reducers/TracksReducer'
 
 interface Props {
 
@@ -30,9 +31,7 @@ export const AlbumDetails = (props: Props) => {
     // Get ID from router
     const dispatch = useDispatch()
     const { isLoading, message } = useSelector(selectAlbumFetchState)
-    const { playlistId } = useSelector(selectPlaylists)
-    // const { playlistIdId } = useSelector((state: AppState) =>
-    // state.playlists.items.map(el=> el.id))
+
 
     const album = useSelector(selectAlbum)
     const { album_id } = useParams<{ album_id: string }>()
@@ -50,7 +49,6 @@ export const AlbumDetails = (props: Props) => {
             .catch(error => { dispatch(fetchAlbumFailed(error)) })
     }, [album_id])
 
-    // useEffect(() => { dispatch(pickPlaylist(playlistId)) }, [playlistId])
 
     if (isLoading) { return <Loading /> }
 
@@ -91,17 +89,17 @@ export const AlbumDetails = (props: Props) => {
 
                     <SelectPlaylist playlists={playlists} 
                     onSelect={(playlistId) => { dispatch(pickPlaylist(playlistId)) }} />
-                    xxx{playlistId}
-
                     <h3>Tracks</h3>
                     {album?.tracks?.items.map(track =>
                         <p className="list-item" key={track.id}>
                             {track.name} 
-                            <button className="btn btn-info float-right">+</button>
+                            <button className="btn btn-info float-right"
+                            onClick={() => { dispatch(addTrack(track.id, track.name))}}
+                            >
+                                +
+                            </button>
                         </p>
                     )}
-
-
                 </div>
             </div>
         </div>
