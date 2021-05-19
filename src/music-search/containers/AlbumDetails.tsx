@@ -94,7 +94,7 @@ export const AlbumDetails = (props: Props) => {
                         <p className="list-item" key={track.id}>
                             {track.name} 
                             <button className="btn btn-info float-right"
-                            onClick={() => { dispatch(addTrack(track.id, track.name))}}
+                            onClick={() => { dispatch(addTrack({id: track.id, name:track.name}))}}
                             >
                                 +
                             </button>

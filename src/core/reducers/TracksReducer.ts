@@ -28,9 +28,9 @@ type TRACKS_UPDATE = {
     type: 'TRACKS_UPDATE'; payload: { draft: SimpleTrack; };
 };
 type ADD_TRACK_TO_PLAYLIST = {
-    type: 'ADD_TRACK_TO_PLAYLIST'; payload: { id: SimpleTrack['id'], name: SimpleTrack['name']; };
+    type: 'ADD_TRACK_TO_PLAYLIST'; payload: { track: SimpleTrack; };
 };
-type PICKED_PLAYLIST = { type: 'PICKED_PLAYLIST', payload: { id: Playlist['id']}}
+type PICKED_PLAYLIST = { type: 'PICKED_PLAYLIST', payload: { id: Playlist['id'] } }
 
 type Actions =
     | PLAYLISTS_LOAD
@@ -47,7 +47,6 @@ const initialState: TracksState = {
         // "123": {..track 123..}
     },
     playlistId: ''
-
 }
 
 /* Reducer */
@@ -76,21 +75,26 @@ const reducer: Reducer<TracksState, Actions> = (
             ...state,
             tracks: reduceTracks(state.tracks, action.payload.items)
         }
-        case 'PICKED_PLAYLIST': 
-        console.log('reducer action payload: ', action.payload.id)
-        return {
-            ...state, playlistId: action.payload.id
-        }
-        case 'ADD_TRACK_TO_PLAYLIST': 
-        console.log(action.payload)
-        return {
-            ...state,
-            playlists: {
-                ...state.playlists.map((element) => {
-                  return element
-                } )
+        case 'PICKED_PLAYLIST':
+            console.log('reducer action payload: ', action.payload.id)
+            return {
+                ...state, playlistId: action.payload.id
             }
-        }
+        case 'ADD_TRACK_TO_PLAYLIST':
+            return {
+                ...state,
+                tracks: reduceTracks(state.tracks, [action.payload.track]),
+                playlists: state.playlists.map((element) => {
+                    if (element.id === state.playlistId) {
+                        return {
+                            ...element,
+                            tracks: [...element.tracks!, action.payload.track]
+                        }
+                    } else {
+                        return element
+                    }
+                })
+            }
         default: return state
     }
 }
@@ -116,8 +120,8 @@ export const tracksUpdate = (draft: SimpleTrack): TRACKS_UPDATE => ({
     type: 'TRACKS_UPDATE', payload: { draft }
 })
 
-export const addTrack = (id: SimpleTrack['id'], name: SimpleTrack['name']): ADD_TRACK_TO_PLAYLIST => ({
-    type: 'ADD_TRACK_TO_PLAYLIST', payload: { id, name }
+export const addTrack = (track: SimpleTrack): ADD_TRACK_TO_PLAYLIST => ({
+    type: 'ADD_TRACK_TO_PLAYLIST', payload: { track }
 })
 
 export const pickPlaylist = (id: string): PICKED_PLAYLIST => ({
