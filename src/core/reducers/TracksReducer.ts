@@ -81,20 +81,25 @@ const reducer: Reducer<TracksState, Actions> = (
                 ...state, playlistId: action.payload.id
             }
         case 'ADD_TRACK_TO_PLAYLIST':
-            return {
-                ...state,
-                tracks: reduceTracks(state.tracks, [action.payload.track]),
-                playlists: state.playlists.map((element) => {
-                    if (element.id === state.playlistId) {
-                        return {
-                            ...element,
-                            tracks: [...element.tracks!, action.payload.track]
+            if (state.playlistId) {
+                return {
+                    ...state,
+                    tracks: reduceTracks(state.tracks, [action.payload.track]),
+                    playlists: state.playlists.map((element) => {
+                        if (element.id === state.playlistId) {
+                            return {
+                                ...element,
+                                tracks: [...element.tracks!, action.payload.track]
+                            }
+                        } else {
+                            return element
                         }
-                    } else {
-                        return element
-                    }
-                })
+                    })
+                }
+            } else {
+                return state
             }
+            
         default: return state
     }
 }
