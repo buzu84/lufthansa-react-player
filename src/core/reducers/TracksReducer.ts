@@ -76,7 +76,6 @@ const reducer: Reducer<TracksState, Actions> = (
             tracks: reduceTracks(state.tracks, action.payload.items)
         }
         case 'PICKED_PLAYLIST':
-            console.log('reducer action payload: ', action.payload.id)
             return {
                 ...state, playlistId: action.payload.id
             }
