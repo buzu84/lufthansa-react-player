@@ -1,6 +1,7 @@
 import React from 'react'
 import { Album, AlbumView } from '../../model/Search'
 import { AlbumGrid } from '../components/AlbumGrid'
+import { ArtistGrid } from '../components/ArtistGrid'
 import { SearchForm } from '../components/SearchForm'
 import { fetchAlbums, fetchArtists, useFetch, useSearchAlbums } from '../../core/hooks/useSearchAlbums'
 
@@ -23,7 +24,8 @@ const albumsMock: AlbumView[] = [
 
 
 export const MusicSearchView = (props: Props) => {
-    const [{ isLoading, message, results }, setQuery] = useFetch(fetchAlbums)
+    // const [{ isLoading, message, results }, setQuery] = useFetch(fetchAlbums)
+    const [{ isLoading, message, results }, setQuery] = useFetch(fetchArtists)
 
     // return <AbstractSearchView x={...} y={...} ... />
 
@@ -39,7 +41,8 @@ export const MusicSearchView = (props: Props) => {
                     {isLoading && <p className="alert alert-info">Loading</p>}
                     {message && <p className="alert alert-danger">{message}</p>}
 
-                    {results && <AlbumGrid albums={results} />}
+                    {/* {results && <AlbumGrid albums={results} />} */}
+                    {results && <ArtistGrid artists={results} />}
                 </div>
             </div>
         </div>

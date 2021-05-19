@@ -48,9 +48,16 @@ export interface Artist {
     external_urls: ExternalUrls;
     href:          string;
     id:            string;
+    images:        Image[];
     name:          string;
     type:          string;
     uri:           string;
+}
+
+export interface ArtistView {
+    id:                     string;
+    name:                   string;
+    type:                   'artist';
 }
 
 export interface ExternalUrls {
