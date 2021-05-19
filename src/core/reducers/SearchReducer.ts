@@ -132,5 +132,6 @@ export const selectAlbum = (state: AppState) => {
 }
 
 export const selectPlaylists = (state: AppState) => {
+    console.log('jestem w useSelectorze: ',state.search)
     return state.search
 }

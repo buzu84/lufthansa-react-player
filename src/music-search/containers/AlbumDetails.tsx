@@ -90,14 +90,14 @@ export const AlbumDetails = (props: Props) => {
                     */}
 
                     <SelectPlaylist playlists={playlists} 
-                    onSelect={() => { dispatch(pickPlaylist(playlistId)) }} />
+                    onSelect={(playlistId) => { dispatch(pickPlaylist(playlistId)) }} />
                     xxx{playlistId}
 
                     <h3>Tracks</h3>
                     {album?.tracks?.items.map(track =>
-                        <p key={track.id}>
+                        <p className="list-item" key={track.id}>
                             {track.name} 
-                            <button className="btn btn-info ml-3">+</button>
+                            <button className="btn btn-info float-right">+</button>
                         </p>
                     )}
 

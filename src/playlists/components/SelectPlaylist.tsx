@@ -24,6 +24,7 @@ export const SelectPlaylist = (props: Props) => {
                 <label>SelectPlaylist</label>
                 <select className="form-control" onChange={e => {
                     const playlist_id = e.currentTarget.selectedOptions[0].value
+                    console.log('plId: ',playlist_id)
                     props.onSelect(playlist_id);
                 }}>
                     <option>-- Please select playlist --</option>
