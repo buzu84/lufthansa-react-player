@@ -1,8 +1,10 @@
-import React, { Component } from 'react'
+import React from 'react'
 import { Album, AlbumView } from '../../model/Search'
 import { AlbumGrid } from '../components/AlbumGrid'
 import { SearchForm } from '../components/SearchForm'
 import { fetchAlbums, fetchArtists, useFetch, useSearchAlbums } from '../../core/hooks/useSearchAlbums'
+
+interface Props { }
 
 const albumsMock: AlbumView[] = [
     { id: "123", name: "Album 123", type: "album", images: [{ height: 300, width: 300, url: "https://www.placecage.com/c/300/300" }] },
@@ -19,12 +21,8 @@ const albumsMock: AlbumView[] = [
 
 */
 
-// interface ParentCompProps {
-//   childComp?: React.ReactNode;
-// }
 
-
-export const MusicSearchView = (props : {resultsComponent: React.FC<{results: AlbumView[]}>}) => {
+export const MusicSearchView = (props: Props) => {
     const [{ isLoading, message, results }, setQuery] = useFetch(fetchAlbums)
 
     // return <AbstractSearchView x={...} y={...} ... />
@@ -41,7 +39,7 @@ export const MusicSearchView = (props : {resultsComponent: React.FC<{results: Al
                     {isLoading && <p className="alert alert-info">Loading</p>}
                     {message && <p className="alert alert-danger">{message}</p>}
 
-                    {results && <props.resultsComponent results={results} />}
+                    {results && <AlbumGrid albums={results} />}
                 </div>
             </div>
         </div>
