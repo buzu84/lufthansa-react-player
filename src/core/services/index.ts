@@ -38,12 +38,6 @@ axios.interceptors.response.use(resp => resp, (err: Error) => {
 })
 
 
-auth.init()
-
-
-
-
-
 // type Tab = Artist | Album
 
 // const t: Tab = 'as' as any;

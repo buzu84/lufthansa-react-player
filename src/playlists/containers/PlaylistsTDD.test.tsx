@@ -74,13 +74,15 @@ describe('PlaylistsTDD', () => {
         setup()
         const items = await screen.findAllByRole('tab', {})
         // screen.debug()
-        userEvent.click(screen.getByText('TestTitle 1', { exact: false}))
+        userEvent.click(screen.getByText('TestTitle 1', { exact: false }))
 
         await screen.findByTestId('playlist_name')
 
     })
 
-    test.todo('clicking edit in details show edit form')
+    // test.todo('clicking edit in details show edit form', () => {
+
+    // })
 
     test.todo('saving form changes updates list and details')
 
