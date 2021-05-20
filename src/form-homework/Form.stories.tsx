@@ -4,12 +4,11 @@ import { DefaultTheme, ThemeProvider } from 'styled-components';
 
 
 export default {
-    title: 'Form',
+    title: 'Homework/Form',
     component: Form,
-    // argTypes: { onEdit: { action: 'clicked' } }
+    argTypes: { onSubmit: { action: 'clicked' } },
     decorators: [
         Story => <div style={{ maxWidth: 500, margin: '0 auto' }} >{Story()}</div>
-        // Story => <div style={{ maxWidth: 500, margin: '0 auto' }} ><Story /></div>
     ],
     args: {
         
@@ -17,14 +16,14 @@ export default {
 } as Meta
 
 
-type ButtonProps = Parameters<typeof Form>[0]
+type FormProps = Parameters<typeof Form>[0]
 
-const Template: Story<ButtonProps> = (args) => <Form {...args} />
+const Template: Story<FormProps> = (args) => <Form {...args} />
 
 export const Primary = Template.bind({})
 
 Primary.args = {
     
 }
-export const Public = Template.bind({})
+export const Secondary = Template.bind({})
 
