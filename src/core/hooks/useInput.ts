@@ -1,14 +1,16 @@
-import { useState, useCallback, ChangeEvent } from "react";
+import { useState, useCallback } from "react";
 
-type onChangeType = (e: ChangeEvent<HTMLInputElement>) => void;
-
-export const useInput = (initValue = "") => {
+export const useInput = (initValue = "", validate: (value: string) => string) => {
   const [value, setValue] = useState(initValue);
+  const [error, setError] = useState('');
 
-  const handler = useCallback((e) => {
-    e.preventDefault();
-    setValue(e.target.value);
+  const onChange = useCallback((e) => {
+    setValue(e.target.value)
   }, []);
 
-  return [value, handler, setValue] as [string, onChangeType, typeof setValue];
+  const onBlur = (e: any) => {
+    setError(validate(e.target.value))
+  }
+
+  return [value, onChange, onBlur, error]
 }
