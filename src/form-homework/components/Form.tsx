@@ -50,15 +50,18 @@ export const Form: React.FC = () => {
   };
 
   const validate = () => {
+    setErrors([]);
     let validationErrors: string[] = [];
     console.log('tu walidujesz i wypychasz błędy')
     const letters = /(?!^\d+$)^.+$/;
     const regEmail = /\S+@\S+\.\S+/;
     if (!Name || Name.length < 5 || !Name.match(letters)) {
       validationErrors.push("Imię powinna składać się z min. 5 znaków!");
+      setErrors(validationErrors);
     }
     if (!Email || !Email.match(regEmail)) {
       validationErrors.push("Wpisz poprawny email!");
+      setErrors(validationErrors);
     }
     return validationErrors;
   }
@@ -72,14 +75,14 @@ export const Form: React.FC = () => {
           placeholder="name"
           value={Name}
           onChange={onChangeName}
-          onBlur={() => { console.log('blur') }} />
+          onBlur={validate} />
         {Email}
         <Normal name="email"
           id="email"
           placeholder="email"
           value={Email}
           onChange={onChangeEmail}
-          onBlur={() => { console.log('blur') }} />
+          onBlur={validate} />
 
         <Default type="submit" onClick={handleSubmit} />
         <ul className="">
