@@ -11,6 +11,16 @@ export default {
 
 const Template: Story<Parameters<typeof Submit>[0]> = (args) => <Submit {...args} />;
 
+export const Default = Template.bind({});
+Default.args = {
+  disabled: false,
+  type: 'submit',
+  value: '',
+  placeholder: 'submit',
+  onHover: () => { },
+  onSubmit: () => { }
+};
+
 export const Hover = Template.bind({});
 Hover.args = {
   disabled: true,
@@ -21,12 +31,3 @@ Hover.args = {
   onSubmit: () => { }
 };
 
-export const Default = Template.bind({});
-Default.args = {
-  disabled: false,
-  type: 'submit',
-  value: '',
-  placeholder: 'submit',
-  onHover: () => { },
-  onSubmit: () => { }
-};

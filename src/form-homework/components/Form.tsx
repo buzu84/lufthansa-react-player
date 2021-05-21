@@ -38,6 +38,7 @@ export const Form: React.FC = () => {
 
   const handleSubmit = (e: any) => {
     e.preventDefault();
+    setErrors([]);
     const validationErrors = validate();
     if (validationErrors.length !== 0) {
       setErrors(validationErrors);
@@ -63,33 +64,35 @@ export const Form: React.FC = () => {
   }
 
   return (
-    <form>
-      {Name}
-      <Normal name="name"
-        id="name"
-        placeholder="name"
-        value={Name}
-        onChange={onChangeName}
-        onBlur={() => { console.log('blur') }} />
-      {Email}
-      <Normal name="email"
-        id="email"
-        placeholder="email"
-        value={Email}
-        onChange={onChangeEmail}
-        onBlur={() => { console.log('blur') }}/>
+    <div className="d-flex justify-content-center align-items-center vw-80 h-auto">
+      <form className="w-50">
+        {Name}
+        <Normal name="name"
+          id="name"
+          placeholder="name"
+          value={Name}
+          onChange={onChangeName}
+          onBlur={() => { console.log('blur') }} />
+        {Email}
+        <Normal name="email"
+          id="email"
+          placeholder="email"
+          value={Email}
+          onChange={onChangeEmail}
+          onBlur={() => { console.log('blur') }} />
 
-      <Default type="submit" onClick={handleSubmit} />
-      <ul className="">
-        {errors.map((error, index) => {
-          return (
-            <li style={{ color: "red", fontWeight: "bold" }} key={index}>
-              {error}
-            </li>
-          );
-        })}
-      </ul>
-    </form>
+        <Default type="submit" onClick={handleSubmit} />
+        <ul className="">
+          {errors.map((error, index) => {
+            return (
+              <li style={{ color: "red", fontWeight: "bold" }} key={index}>
+                {error}
+              </li>
+            );
+          })}
+        </ul>
+      </form>
+    </div>
   );
 }
 

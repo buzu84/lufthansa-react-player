@@ -17,6 +17,7 @@ export const Submit = styled.input<Props>`
     letter-spacing: 1.5px;
     opacity: 1;
     transition: 0.6s;
+    display: block;
     ${props => props.disabled === true && css`
     background: tomato;
     color: white;
