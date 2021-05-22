@@ -25,6 +25,7 @@ export const Form: React.FC = () => {
       if(!nameError && !emailError) {
         console.log('walidacja pomyslna')
         console.log('emituję stan formularza na submit: ', name, email)
+        alert(`emituję stan formularza: imię: ${name}, adres: ${email}`)
       }
     } else {
       alert('Wpisz cokolwiek!')
@@ -40,18 +41,18 @@ export const Form: React.FC = () => {
           value={name}
           onChange={onChangeName}
           onBlur={onBlurName} />
-        <span style={{ color: "red", fontWeight: "bold" }}>
+        {nameError && <span className="text-danger font-weight-bold">
           {nameError}
-        </span>
+        </span>}
         <Normal name="email"
           id="email"
           placeholder="email"
           value={email}
           onChange={onChangeEmail}
           onBlur={onBlurEmail} />
-        <span style={{ color: "red", fontWeight: "bold" }}>
+        {emailError && <span className="text-danger font-weight-bold">
           {emailError}
-        </span>
+        </span>}
 
         <Default type="submit" onClick={handleSubmit} />
       </form>
