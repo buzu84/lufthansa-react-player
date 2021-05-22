@@ -8,10 +8,11 @@ import { MusicSearchView } from './music-search/containers/MusicSearchView';
 // npm i --save-dev @types/react-router
 import { Redirect, Route, Switch } from 'react-router'
 import { NavBar, UserWidget } from './core/components/NavBar';
-import PlaylistTracks from './playlists/containers/PlaylistTracks';
+import PlaylistTracks, { PlaylistTracksWithRedux } from './playlists/containers/PlaylistTracks';
 import { PlaylistsReduxView } from './playlists/containers/PlaylistsReduxView';
 import { PlaylistTracksHooks } from './playlists/containers/PlaylistTracksHooks';
 import { AlbumDetails } from './music-search/containers/AlbumDetails';
+import { CounterPage } from './core/containers/Counter';
 
 function App() {
   return (
@@ -27,8 +28,9 @@ function App() {
               <Route path="/playlists/:playlist_id/" component={PlaylistsReduxView} />
               <Route path="/albums/:album_id/" component={AlbumDetails} />
               <Route path="/playlists/" component={PlaylistsReduxView} />
-              <Route path="/tracks/" component={PlaylistTracksHooks} />
+              <Route path="/tracks/" component={PlaylistTracksWithRedux} />
               <Route path="/search" component={MusicSearchView} />
+              <Route path="/counter" component={CounterPage} />
               <Route path="*" render={() => <h1>Page Not Found</h1>} />
             </Switch>
 
