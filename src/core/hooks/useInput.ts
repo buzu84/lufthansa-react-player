@@ -12,5 +12,5 @@ export const useInput = (initValue = "", validate: (value: string) => string) =>
     setError(validate(e.target.value))
   }
 
-  return [value, onChange, onBlur, error]
+  return [ value, onChange, onBlur, error ]
 }
