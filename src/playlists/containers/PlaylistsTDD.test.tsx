@@ -67,7 +67,23 @@ describe('PlaylistsTDD', () => {
         expect(items[1]).toHaveTextContent('TestTitle 2')
     })
 
-    // test.todo('shows list of no playlists')
+    test('shows list of no playlists', async () => {
+        const mockPlaylists: Playlist[] = []
+        server.use(
+            rest.get('https://api.spotify.com/v1/me/playlists', (req, res, ctx) => {
+                ctx.delay(500)
+                return res(ctx.json({ items: mockPlaylists }))
+            })
+        )
+
+        setup()
+        const noItems = screen.queryAllByRole('tab', {})
+        expect(noItems).toHaveLength(0)
+
+        const items = await screen.findAllByText('No playlists')
+
+        expect(items).toHaveLength(1)
+    })
 
     test('selecting playlist from list loads details', async () => {
 
@@ -84,16 +100,5 @@ describe('PlaylistsTDD', () => {
 
     // })
 
-    test.todo('saving form changes updates list and details')
-
-    // test('Function adds numbers', () => {
-    //     const add = (x:number, y:number) => 5;
-
-    //     expect(add(2, 3)).toEqual(5)
-    // })
-
-    /* 
-
-    
-    */
+    // test.todo('saving form changes updates list and details')
 })
